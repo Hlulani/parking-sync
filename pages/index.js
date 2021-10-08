@@ -1,7 +1,5 @@
 import Head from 'next/head'
-import Image from 'next/image'
-
-
+import Header from '../components/Header'
 export default function Home() {
   return (
     <div>
@@ -11,6 +9,7 @@ export default function Home() {
       </Head>
 
       <h1>Preparing a parking lot app</h1>
+      <Header />
     </div>
   )
 }
