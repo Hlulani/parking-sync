@@ -3,8 +3,10 @@
 @tailwind components;
 @tailwind utilities;
  
-@layer base{
+/* @layer base{
   body {
     @apply bg-[#60A5FA]
+
   }
-}
+
+} */

@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import Header from '../components/Header'
+import Results from './../components/Results';
+
 export default function Home() {
   return (
     <div>
@@ -7,9 +9,9 @@ export default function Home() {
         <title>Parking Sync</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <h1>Preparing a parking lot app</h1>
       <Header />
+      <Results/>
     </div>
   )
 }
+
