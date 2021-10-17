@@ -10,3 +10,8 @@
   }
 
 } */
+
+@layer components
+{
+   .spaceColors {@apply bg-gray-400}
+}

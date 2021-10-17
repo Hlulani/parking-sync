@@ -1,11 +1,41 @@
-function Results() {
+import React, { useState } from "react";
+import ParkingSpace from "./ParkingSpace";
+
+function Results({ results = [] }) {
+  const [selectSpace, selectedSpaces] = useState();
+
+  const handleClick = (spaceId) => {
+    selectedSpaces(spaceId);
+  };
+
+  console.log("Changed Results", results);
   return (
     <div className="flex flex-row ...">
       <div
         className="border-4 border-green-600 border-double
                     bg-green-400 w-full h-96 mx-8"
       >
-        <div className={"w-8 h-8 bg-black"}></div>
+        <div className="text-3xl  mt-8 mr-8  ml-10 font-bold mb-10 text-gray-200 ...">
+          GET YOUR PARKING TICKET
+        </div>
+        <div className="border-4  border-solid bg-white w-99 h-64 mx-8 mt-8">
+          <div className="flex flex-row flex-wrap">
+            {results.map((space) => {
+              let color = "gray";
+              if (selectSpace === space) {
+                color = "yellow";
+              }
+              return (
+                <ParkingSpace
+                  key={space}
+                  color={color}
+                  func={handleClick}
+                  space={space}
+                />
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       <div
@@ -13,7 +43,7 @@ function Results() {
                     bg-green-400 w-full h-96 mx-8 "
       >
         <button
-          className="p-2 pl-5 pr-5 bg-gray-500 text-gray-100 text-lg rounded-lg focus:border-4 
+          className="p-2 pl-5 pr-5 bg-gray-400 text-gray-100 text-lg rounded-lg focus:border-4 
     border-gray-300  w-full mt-4"
         >
           Exit Parking

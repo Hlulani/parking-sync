@@ -1,57 +1,87 @@
-import React, { useState } from "react";
-import Modal from "@material-tailwind/react/Modal";
-import ModalHeader from "@material-tailwind/react/ModalHeader";
-import ModalBody from "@material-tailwind/react/ModalBody";
-import ModalFooter from "@material-tailwind/react/ModalFooter";
-import Button from "@material-tailwind/react/Button";
+import React from "react";
+import BarcodeComponent from "./barcodeComponent";
+import Image from "next/image";
+import parking from "../img/parking-2.png";
 
-export default function TicketModal() {
+function TicketModal() {
+  const [showModal, setShowModal] = React.useState(false);
 
-    const [showModal, setShowModal] = React.useState(false);
-
-    return (
+  return (
+    <>
+      <button
+        className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="button"
+        onClick={() => setShowModal(true)}
+      >
+        Open regular modal
+      </button>
+      {showModal ? (
         <>
-            <Button
-                color="teal"
-                type="button"
-                onClick={(e) => setShowModalCode(true)}
-                ripple="light"
-            >
-                Open small Modal
-            </Button>
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">
+                    Welcome to Park.Sync
+                  </h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                  <div className="h-32 w-32 ...">
+                    <Image
+                      className="object-contain"
+                      src={parking}
+                      width={150}
+                      height={200}
+                      alt=""
+                    />
+                  </div>
+                  <div className="divide-y-4 divide-black divide-dashed mt-8">
+                    <div className="mt-10"></div>
+                    <div className="text-center text-3xl font-bold mb-10  align-middle">Parking Receipt</div>
+                    <div className="font-bold"></div>
+                  </div>
+                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                   From: 16.10.2021 02:49
+                  </p>
 
-            <Modal size="sm" active={showModal} toggler={() => setShowModal(false)}>
-                <ModalHeader toggler={() => setShowModal(false)}>
-                    Modal Title
-                </ModalHeader>
-                <ModalBody>
-                    <p className="text-base leading-relaxed text-gray-600 font-normal">
-                        I always felt like I could do anything. That’s the main thing people
-                        are controlled by! Thoughts- their perception of themselves! They're
-                        slowed down by their perception of themselves. If you're taught you
-                        can’t do anything, you won’t do anything. I was taught I could do
-                        everything.
-                    </p>
-                </ModalBody>
-                <ModalFooter>
-                    <Button 
-                        color="red"
-                        buttonType="link"
-                        onClick={(e) => setShowModalCode(false)}
-                        ripple="dark"
-                    >
-                        Close
-                    </Button>
-
-                    <Button
-                        color="green"
-                        onClick={(e) => setShowModalCode(false)}
-                        ripple="light"
-                    >
-                        Save Changes
-                    </Button>
-                </ModalFooter>
-            </Modal>
+                  <BarcodeComponent />
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    // className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="block w-full bg-yellow-400 hover:bg-yellow-300 p-4 rounded text-yellow-900 hover:text-yellow-800 transition duration-300"
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
-    );
+      ) : null}
+    </>
+  );
 }
+export default TicketModal;
