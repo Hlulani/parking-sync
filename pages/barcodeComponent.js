@@ -1,9 +1,9 @@
 import React from 'react';
 import { useBarcode } from '@createnextapp/react-barcode';
 
-function BarcodeComponent() {
+function BarcodeComponent({barcode}) {
   const { inputRef } = useBarcode({
-    value: '288200674800',
+    value: barcode,
     options: {
       background: '#ccffff',
     }

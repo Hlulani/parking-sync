@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import ParkingSpace from "./ParkingSpace";
+import TicketModal from './../pages/ticketModal';
 
 function Results({ results = [] }) {
   const [selectSpace, selectedSpaces] = useState();
+  const [selectedBarcode, setSelectedBarcode] = useState("");
+  const [showModal, setTicketModal] = React.useState(false);
 
   const handleClick = (spaceId) => {
     selectedSpaces(spaceId);
+    const barcode = results.find((item, index) => index === spaceId)?.barcode;
+    setSelectedBarcode(barcode);
+    console.log('spaceId', spaceId);
   };
 
   console.log("Changed Results", results);
@@ -19,21 +25,23 @@ function Results({ results = [] }) {
           GET YOUR PARKING TICKET
         </div>
         <div className="border-4  border-solid bg-white w-99 h-64 mx-8 mt-8">
-          <div className="flex flex-row flex-wrap">
-            {results.map((space) => {
+          <div className="flex flex-row flex-wrap" >
+            {results.map(({barcode ,index}) => {
+              console.log({barcode})
               let color = "gray";
-              if (selectSpace === space) {
+              if (selectSpace === index) {
                 color = "yellow";
               }
               return (
                 <ParkingSpace
-                  key={space}
+                  key={index}
                   color={color}
                   func={handleClick}
-                  space={space}
+                  space={index}
+                  setTicketModal={setTicketModal}
                 />
               );
-            })}
+            })} 
           </div>
         </div>
       </div>
@@ -59,25 +67,9 @@ function Results({ results = [] }) {
             Exit
           </button>
         </div>
-
-        {/* <div className="relative text-gray-700">
-          <input
-            type="text"
-            placeholder="Enter parking barcode"
-            className="focus:outline-none focus:ring focus:border-blue-300 mt-8 mr-8 mb-8 ml-8 align-middle rounded-lg h-10"
-          />
-          <input
-            className="w-full h-10 pl-3 pr-8 text-base placeholder-gray-600 border rounded-lg focus:shadow-outline"
-            type="text"
-            placeholder="Enter parking barcode"
-          />
-
-          <button className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-indigo-600 rounded-r-lg hover:bg-indigo-500 focus:bg-indigo-700">
-            Exit
-          </button>
-        </div> */}
       </div>
-      {/* <div className="border-r-4 border-indigo-600 ..."></div> */}
+      <TicketModal showModal={showModal} setTicketModal={setTicketModal} barcode={selectedBarcode}/>
+      
     </div>
   );
 }
