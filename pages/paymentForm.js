@@ -1,13 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function PaymentForm({ setIsPaymentPage}) {
-
-
-
+  const [selectedTime, setSelectedTime] = useState(new Date());
+  const [showModal, setShowModal] = useState(false);
   const handleGoBack = () => {
     setIsPaymentPage(false);
   };
   
+  useEffect(() => {
+    console.log('ticket', showModal)
+   try {
+     if(showModal) {
+      const time = new Date();
+      setSelectedTime(time);
+      
+      let price = 2;
+     const ticket = JSON.parse(localStorage.getItem('ticket'));
+      if(ticket.barcode){
+
+      }
+     
+     }
+   } catch (error) {
+     console.log('érror', error)
+   }
+  }, [showModal]);
+
+
     return (
       <div className="min-h-screen flex items-center justify-center bg-blue-400">
         <div className="bg-white p-16 rounded shadow-2xl w-2/3">

@@ -9,6 +9,8 @@ function Results({ results = [] }) {
   const [showModal, setTicketModal] = React.useState(false);
   const [isPaymentPage, setIsPaymentPage] = useState(false);
   const [selectedPaymentButton, setSelectedPaymentButton] = React.useState(0);
+  const [selectedTime, setSelectedTime] = useState(new Date());
+
 
   const handleClick = (spaceId) => {
     selectedSpaces(spaceId);
@@ -55,15 +57,28 @@ function Results({ results = [] }) {
       </div>
 
       <div
-        className="border-4 border-green-600 border-double
-                    bg-green-400 w-full h-96 mx-8 "
+        className="border-4 border-green-600 border-double w-full h-96 mx-8 "
       >
-        <button
+        {/* <button
           className="p-2 pl-5 pr-5 bg-gray-400 text-gray-100 text-lg rounded-lg focus:border-4 
     border-gray-300  w-full mt-4"
         >
           Exit Parking
-        </button>
+        </button> */}
+
+<button onClick={()=>{
+            const time = new Date();
+            const ticket = JSON.parse(localStorage.getItem('ticket'));
+            console.log('ticket.selectedTime', ticket.selectedTime)
+            const duration = time.getTime()+ 1000 * 3600 * 4 - new Date(ticket.selectedTime).getTime();
+            const hours = duration / (1000 * 3600); // 1hr = 3600s 1s = 1000ms
+            const price = hours * 2 > 2 ? hours * 2 : 2;
+            console.log('price=', price, "hours=", hours)
+
+
+          }} className="block w-full bg-yellow-400 hover:bg-yellow-300 p-4 rounded text-yellow-900 hover:text-yellow-800 transition duration-300">
+              Get the ticket Price
+          </button>
 
         <div className="relative text-gray-700 mt-8 mr-8 mb-8 ml-8">
           <input

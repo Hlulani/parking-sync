@@ -92,9 +92,19 @@ function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
                   <button
                     className="block w-full bg-yellow-400 hover:bg-yellow-300 p-4 rounded text-yellow-900 hover:text-yellow-800 transition duration-300"
                     type="button"
-                    onClick={handleProceedToPayment}
+                    onClick={()=>{
+                      const time = new Date();
+                      setSelectedTime(time);
+                      
+                      localStorage.setItem('ticket', JSON.stringify({
+                        barcode,
+                        selectedTime :time,
+                      }));
+                      console.log("saved", { barcode,
+                        selectedTime :time,})
+                    }}
                   >
-                   Proceed to Payment
+                   Save Ticket
                   </button>
                   
                 </div>
@@ -102,9 +112,24 @@ function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
             </div>
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+       
         </>
        
       ) : null}
+
+{/* <button onClick={()=>{
+            const time = new Date();
+            const ticket = JSON.parse(localStorage.getItem('ticket'));
+            console.log('ticket.selectedTime', ticket.selectedTime)
+            const duration = time.getTime()+ 1000 * 3600 * 4 - new Date(ticket.selectedTime).getTime();
+            const hours = duration / (1000 * 3600); // 1hr = 3600s 1s = 1000ms
+            const price = hours * 2 > 2 ? hours * 2 : 2;
+            console.log('price=', price, "hours=", hours)
+
+
+          }} className="block w-full bg-yellow-400 hover:bg-yellow-300 p-4 rounded text-yellow-900 hover:text-yellow-800 transition duration-300">
+              Make Payment
+          </button> */}
     </>
     
   );
