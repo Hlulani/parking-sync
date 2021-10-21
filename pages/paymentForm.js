@@ -1,12 +1,20 @@
+import { useEffect } from "react";
 
-function PaymentForm() {
+function PaymentForm({ setIsPaymentPage}) {
+
+
+
+  const handleGoBack = () => {
+    setIsPaymentPage(false);
+  };
+  
     return (
       <div className="min-h-screen flex items-center justify-center bg-blue-400">
         <div className="bg-white p-16 rounded shadow-2xl w-2/3">
           <h2 className="text-3xl font-bold mb-10 text-gray-800">
             Complete Payment
           </h2>
-  
+        <a href="#" onClick={handleGoBack}>Go Back</a>
           <form className="space-y-5">
             <div>
               <label className="block mb-1 font-bold text-gray-500">Barcode</label>

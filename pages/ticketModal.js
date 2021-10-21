@@ -1,9 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BarcodeComponent from "./barcodeComponent";
 import Image from "next/image";
 import parking from "../img/parking-2.png";
+import PaymentForm from "./paymentForm";
 
-function TicketModal({showModal, setTicketModal, barcode }) {
+function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
+  const [selectedPaymentButton, setSelectedPaymentButton] = React.useState(0);
+  const [selectedTime, setSelectedTime] = useState(new Date());
+  
+
+  useEffect(() => {
+    console.log('çalled', showModal)
+   try {
+     if(showModal) {
+      const time = new Date();
+      setSelectedTime(time);
+      debugger;
+      localStorage.setItem('ticket', JSON.stringify({
+        barcode,
+        selectedTime
+      }));
+     }
+   } catch (error) {
+     console.log('érror', error)
+   }
+  }, [showModal]);
+
+  const handleChange = (event, newValue) => {
+    setSelectedPaymentButton(newValue);
+  };
+
+  const handleProceedToPayment = () => {
+    setTicketModal(false);
+    setIsPaymentPage(true);
+  }
+
   return (
     <>
       {showModal ? (
@@ -43,7 +74,7 @@ function TicketModal({showModal, setTicketModal, barcode }) {
                     <div className="font-bold"></div>
                   </div>
                   <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                   From: 16.10.2021 02:49
+                   From: {selectedTime.toString()}
                   </p>
 
                   <BarcodeComponent barcode={barcode}/>
@@ -56,22 +87,26 @@ function TicketModal({showModal, setTicketModal, barcode }) {
                     onClick={() => setTicketModal(false)}
                   >
                     Close
+                   
                   </button>
                   <button
                     className="block w-full bg-yellow-400 hover:bg-yellow-300 p-4 rounded text-yellow-900 hover:text-yellow-800 transition duration-300"
                     type="button"
-                    onClick={() => setTicketModal(false)}
+                    onClick={handleProceedToPayment}
                   >
-                   Proceed to Payments
+                   Proceed to Payment
                   </button>
+                  
                 </div>
               </div>
             </div>
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
+       
       ) : null}
     </>
+    
   );
 }
 export default TicketModal;

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import ParkingSpace from "./ParkingSpace";
 import TicketModal from './../pages/ticketModal';
+import PaymentForm from "../pages/paymentForm";
 
 function Results({ results = [] }) {
   const [selectSpace, selectedSpaces] = useState();
   const [selectedBarcode, setSelectedBarcode] = useState("");
   const [showModal, setTicketModal] = React.useState(false);
+  const [isPaymentPage, setIsPaymentPage] = useState(false);
+  const [selectedPaymentButton, setSelectedPaymentButton] = React.useState(0);
 
   const handleClick = (spaceId) => {
     selectedSpaces(spaceId);
@@ -14,8 +17,13 @@ function Results({ results = [] }) {
     console.log('spaceId', spaceId);
   };
 
+  const handlePayment = (payment) => {
+    setSelectedPaymentButton(payment);
+  };
   console.log("Changed Results", results);
   return (
+    <>
+     { !isPaymentPage ? 
     <div className="flex flex-row ...">
       <div
         className="border-4 border-green-600 border-double
@@ -68,9 +76,16 @@ function Results({ results = [] }) {
           </button>
         </div>
       </div>
-      <TicketModal showModal={showModal} setTicketModal={setTicketModal} barcode={selectedBarcode}/>
-      
+      <TicketModal 
+      showModal={showModal} 
+      setTicketModal={setTicketModal} 
+      barcode={selectedBarcode} 
+      payment={handlePayment}
+      setIsPaymentPage={setIsPaymentPage}
+    />
     </div>
+     :  <PaymentForm  setIsPaymentPage={setIsPaymentPage} /> }
+     </>
   );
 }
 

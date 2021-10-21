@@ -7,7 +7,7 @@ export default function Home() {
     const element = [];
     for (let index = 0; index < 51; index++) {
       element.push({
-        barcode: generate(12),
+        barcode: generate(16),
         index,
       });
     }
