@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import BarcodeComponent from "./barcodeComponent";
 import Image from "next/image";
 import parking from "../img/parking-2.png";
-import PaymentForm from "./paymentForm";
 
 function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
   const [selectedPaymentButton, setSelectedPaymentButton] = React.useState(0);
@@ -100,6 +99,7 @@ function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
                         barcode,
                         selectedTime :time,
                       }));
+                      setTicketModal(false);
                       console.log("saved", { barcode,
                         selectedTime :time,})
                     }}

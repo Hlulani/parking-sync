@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import ParkingSpace from "./ParkingSpace";
 import TicketModal from './../pages/ticketModal';
 import PaymentForm from "../pages/paymentForm";
+import PaymentModal from '../pages/PaymentModal';
 
 function Results({ results = [] }) {
   const [selectSpace, selectedSpaces] = useState();
   const [selectedBarcode, setSelectedBarcode] = useState("");
   const [showModal, setTicketModal] = React.useState(false);
+  const [showPriceModal, setShowPriceModal] = React.useState(false);
   const [isPaymentPage, setIsPaymentPage] = useState(false);
   const [selectedPaymentButton, setSelectedPaymentButton] = React.useState(0);
   const [selectedTime, setSelectedTime] = useState(new Date());
+  const [ticketPrice, setTicketPrice] = useState("");
+  const [duration, setDuration] = useState("");
 
 
   const handleClick = (spaceId) => {
@@ -23,6 +27,19 @@ function Results({ results = [] }) {
     setSelectedPaymentButton(payment);
   };
   console.log("Changed Results", results);
+
+  const handleGetTicketPrice = () => {
+    const time = new Date();
+    const ticket = JSON.parse(localStorage.getItem('ticket'));
+    console.log('ticket.selectedTime', ticket.selectedTime)
+    const duration = time.getTime()+ 1000 * 3600 * 4 - new Date(ticket.selectedTime).getTime();
+    const hours = duration / (1000 * 3600); // 1hr = 3600s 1s = 1000ms
+    const price = hours * 2 > 2 ? hours * 2 : 2;
+    console.log('price=', price, "hours=", hours);
+    setTicketPrice(price);
+    setDuration(hours);
+    setShowPriceModal(true);
+  }
   return (
     <>
      { !isPaymentPage ? 
@@ -66,17 +83,7 @@ function Results({ results = [] }) {
           Exit Parking
         </button> */}
 
-<button onClick={()=>{
-            const time = new Date();
-            const ticket = JSON.parse(localStorage.getItem('ticket'));
-            console.log('ticket.selectedTime', ticket.selectedTime)
-            const duration = time.getTime()+ 1000 * 3600 * 4 - new Date(ticket.selectedTime).getTime();
-            const hours = duration / (1000 * 3600); // 1hr = 3600s 1s = 1000ms
-            const price = hours * 2 > 2 ? hours * 2 : 2;
-            console.log('price=', price, "hours=", hours)
-
-
-          }} className="block w-full bg-yellow-400 hover:bg-yellow-300 p-4 rounded text-yellow-900 hover:text-yellow-800 transition duration-300">
+<button onClick={handleGetTicketPrice} className="block w-full bg-yellow-400 hover:bg-yellow-300 p-4 rounded text-yellow-900 hover:text-yellow-800 transition duration-300">
               Get the ticket Price
           </button>
 
@@ -100,6 +107,13 @@ function Results({ results = [] }) {
     />
     </div>
      :  <PaymentForm  setIsPaymentPage={setIsPaymentPage} /> }
+      <PaymentModal
+         showPriceModal={showPriceModal} 
+         setShowPriceModal={setShowPriceModal}
+         duration={duration}
+         ticketPrice={ticketPrice}
+         setIsPaymentPage={setIsPaymentPage}
+         />
      </>
   );
 }
