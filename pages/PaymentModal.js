@@ -1,5 +1,5 @@
 
-function PaymentModal({showPriceModal, setShowPriceModal,  ticketPrice, duration, setIsPaymentPage }) {
+function PaymentModal({showPriceModal, setShowPriceModal,  ticketPrice, duration, setIsPaymentPage,barcode }) {
 
     const handleProceed = () => {
         setIsPaymentPage(true);
@@ -31,6 +31,7 @@ function PaymentModal({showPriceModal, setShowPriceModal,  ticketPrice, duration
 
                     <p className = "mb-4 text-sm" >Ticket Price: {ticketPrice.toFixed(2)}</p>
                     <p className = "mb-4 text-sm" >Hours spent: {duration}</p>
+                    <p className = "mb-4 text-sm" >Barcode: {barcode}</p>
                     <button className="px-4 py-2 text-white bg-red-600 rounded" onClick={() => setShowPriceModal(false)}>Cancel</button>
                     <button className="px-4 py-2 text-white bg-green-600 rounded" onClick={handleProceed}>Proceed To Payment</button>
                 </div>

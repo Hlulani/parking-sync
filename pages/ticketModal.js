@@ -17,7 +17,8 @@ function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
       debugger;
       localStorage.setItem('ticket', JSON.stringify({
         barcode,
-        selectedTime
+        selectedTime,
+        status: 'unpaid'
       }));
      }
    } catch (error) {
@@ -58,7 +59,7 @@ function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <div className="h-32 w-32 ...">
+                  <div className="  h-32 w-32 ...">
                     <Image
                       className="object-contain"
                       src={parking}
@@ -66,6 +67,7 @@ function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
                       height={200}
                       alt=""
                     />
+                    {/* <BarcodeComponent barcode={barcode}/> */}
                   </div>
                   <div className="divide-y-4 divide-black divide-dashed mt-8">
                     <div className="mt-10"></div>
@@ -97,7 +99,8 @@ function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
                       
                       localStorage.setItem('ticket', JSON.stringify({
                         barcode,
-                        selectedTime :time,
+                        selectedTime: time,
+                        status: 'unpaid'
                       }));
                       setTicketModal(false);
                       console.log("saved", { barcode,

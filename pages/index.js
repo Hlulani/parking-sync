@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Results from "./../components/Results";
 
 export default function Home() {
+  
   const generateSpaceId = () => {
     const element = [];
     for (let index = 0; index < 51; index++) {
