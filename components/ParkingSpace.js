@@ -3,7 +3,6 @@ function ParkingSpace({ space, color, func, setTicketModal }) {
   const handleTicketSelection = () => {
     console.log("spance", space);
     func(space);
-    debugger;
     console.log("ínside");
     setTicketModal((isShown) => !isShown);
   };

@@ -4,14 +4,13 @@ function PaymentForm({ setIsPaymentPage, barcode }) {
   // const [selectedBarcode , setSelectedBarcode] = useState("");
   const [ticketStatus, setTicketStatus] = useState("unpaid");
 
-  const getTheTicketState = () => {
+  const getTheTicketState = (barcode) => {
     const ticket = JSON.parse(localStorage.getItem("ticket"));
     if (setIsPaymentPage = true) {
       ticket.status = "paid";
       console.log("Make payments", { barcode });
       console.log("ticket", ticket);
     } else{
-
       ticket.status = "unpaid";
     }
   };
@@ -19,6 +18,18 @@ function PaymentForm({ setIsPaymentPage, barcode }) {
   const handleGoBack = () => {
     setIsPaymentPage(false);
   };
+
+  const handleMakePayment = () => {
+    try {
+      const ticket = JSON.parse(localStorage.getItem("ticket"));
+      if(ticket) {
+        ticket.status = "paid";
+        localStorage.setItem('ticket', JSON.stringify(ticket));
+      }
+    } catch (error) {
+      console.log('érror making payment');
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-400">
@@ -75,15 +86,7 @@ function PaymentForm({ setIsPaymentPage, barcode }) {
           <button
           
             className="block w-full bg-yellow-400 hover:bg-yellow-300 p-4 rounded text-yellow-900 hover:text-yellow-800 transition duration-300"
-            onClick={() => {
-              // const ticket = JSON.parse(localStorage.getItem("ticket"));
-              // ticket.status = "paid";
-              // console.log("Make payments", { barcode });
-              // console.log("ticket", ticket);
-              debugger;
-              getTheTicketState
-              debugger;
-            }}
+            onClick={handleMakePayment}
           >
             Make Payment
           </button>

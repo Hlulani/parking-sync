@@ -7,6 +7,7 @@ import PaymentModal from "../pages/PaymentModal";
 function Results({ results = [] }) {
   const [selectSpace, selectedSpaces] = useState();
   const [selectedBarcode, setSelectedBarcode] = useState("");
+  const [userInputBarcode, setUserInputBarcode] = useState("");
   const [showModal, setTicketModal] = React.useState(false);
   const [showPriceModal, setShowPriceModal] = React.useState(false);
   const [isPaymentPage, setIsPaymentPage] = useState(false);
@@ -14,6 +15,12 @@ function Results({ results = [] }) {
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [ticketPrice, setTicketPrice] = useState("");
   const [duration, setDuration] = useState("");
+  const [exitMessage, setExitMessage] = useState("");
+
+  const onInputChange = (event) => {
+    const value = event.target.value;
+    setUserInputBarcode(value);
+  };
 
   const handleClick = (spaceId) => {
     selectedSpaces(spaceId);
@@ -40,13 +47,49 @@ function Results({ results = [] }) {
     setDuration(hours);
     setShowPriceModal(true);
   };
+  
+  const getTicketState = (barcode) => {
+    try {
+      debugger;
+      const ticket = JSON.parse(localStorage.getItem("ticket"));
+      if(ticket && ticket.barcode === barcode) {
+        return ticket.status;
+      }
+    } catch (error) {
+      return "ünpaid";
+    }
+  };
 
   const handleExitParking = () => {
-    const ticket = JSON.parse(localStorage.getItem("ticket"));
-    const paymentBarcode = ticket.selectedBarcode;
-    setSelectedBarcode(paymentBarcode);
-    console.log("paymentBarcode=", paymentBarcode);
+    try {
+      const ticket = JSON.parse(localStorage.getItem("ticket"));
+      const paymentBarcode = ticket.barcode;
+      setSelectedBarcode(paymentBarcode);
+      const status = getTicketState(userInputBarcode);
+      if(status === "paid") {
+        localStorage.removeItem('ticket');
+        setExitMessage("Exit is successful.");
+      } else if(paymentBarcode !== userInputBarcode) {
+        setExitMessage("Barcode is invalid.");
+      } else {
+        setExitMessage("Exit is not successful.");
+      }
+      console.log("paymentBarcode=", paymentBarcode);
+    } catch (error) {
+      
+    }
+  };
+
+
+  const getBarCode = () => {
+    try {
+      const ticket = JSON.parse(localStorage.getItem('ticket'));
+      return ticket.barcode || "";
+    } catch (error) {
+      return "";
+    }
   }
+
   return (
     <>
       {!isPaymentPage ? (
@@ -81,25 +124,21 @@ function Results({ results = [] }) {
           </div>
 
           <div className="border-4 border-green-600 border-double w-full h-96 mx-8 ">
-            {/* <button
-          className="p-2 pl-5 pr-5 bg-gray-400 text-gray-100 text-lg rounded-lg focus:border-4 
-    border-gray-300  w-full mt-4"
-        >
-          Exit Parking
-        </button> */}
-
+         
             <button
               onClick={handleGetTicketPrice}
               className="block w-full bg-yellow-400 hover:bg-yellow-300 p-4 rounded text-yellow-900 hover:text-yellow-800 transition duration-300"
             >
               Get the ticket Price
             </button>
-
+            {exitMessage && <div>{exitMessage}</div>}
             <div className="relative text-gray-700 mt-8 mr-8 mb-8 ml-8">
               <input
                 className="w-full h-10 pl-3 pr-8 text-base placeholder-gray-600 border rounded-lg focus:shadow-outline"
                 type="text"
-                placeholder="Enter parking barcode" 
+                placeholder="Enter parking barcode"
+                value={userInputBarcode}
+                onChange={onInputChange}
               />
               <button className="absolute inset-y-0 right-0 flex items-center px-4 font-bold text-white bg-black rounded-r-lg hover:bg-indigo-500 focus:bg-indigo-700"
               onClick={handleExitParking}
@@ -119,7 +158,7 @@ function Results({ results = [] }) {
       ) : (
         <PaymentForm 
         setIsPaymentPage={setIsPaymentPage} 
-        barcode={selectedBarcode}
+        barcode={getBarCode()}
         />
       )}
       <PaymentModal
@@ -128,7 +167,7 @@ function Results({ results = [] }) {
         duration={duration}
         ticketPrice={ticketPrice}
         setIsPaymentPage={setIsPaymentPage}
-        barcode={selectedBarcode}
+        barcode={getBarCode()}
       />
     </>
   );

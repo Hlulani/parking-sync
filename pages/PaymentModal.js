@@ -1,5 +1,10 @@
+import { useEffect } from "react";
 
 function PaymentModal({showPriceModal, setShowPriceModal,  ticketPrice, duration, setIsPaymentPage,barcode }) {
+    
+    useEffect(() => {
+
+    }, []);
 
     const handleProceed = () => {
         setIsPaymentPage(true);

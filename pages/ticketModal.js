@@ -14,7 +14,6 @@ function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
      if(showModal) {
       const time = new Date();
       setSelectedTime(time);
-      debugger;
       localStorage.setItem('ticket', JSON.stringify({
         barcode,
         selectedTime,
@@ -67,7 +66,7 @@ function TicketModal({showModal, setTicketModal, barcode,  setIsPaymentPage}) {
                       height={200}
                       alt=""
                     />
-                    {/* <BarcodeComponent barcode={barcode}/> */}
+              
                   </div>
                   <div className="divide-y-4 divide-black divide-dashed mt-8">
                     <div className="mt-10"></div>
